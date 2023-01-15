@@ -1,0 +1,28 @@
+<div class="site-home">
+    <section class="pt-0 pb-3">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-center">
+            <br/>&nbsp;
+            <h2>
+                <b>А. Жилин</b>
+             </h2>
+
+            <p>Здесь типа будет резюме</p>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+</div>
+
+<script type="application/x-go">
+
+type Index struct {}
+
+func (c *Index) Title() string { return "Alexander Zhilin" }
+func (c *Index) ShortTitle() string { return "AZhilin" }
+func (c *Index) MetaDescription() string { return "Alexander Zhilin CV site built without using JavaScript" }
+
+</script>
