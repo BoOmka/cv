@@ -1,0 +1,36 @@
+<section class="resume-section" id="experience">
+    <div class="resume-section-content">
+        <h2 class="mb-5">Experience</h2>
+
+        <div vg-for='_, j := range c.jobs' class="d-flex flex-column flex-md-row justify-content-between mb-5">
+            <div class="flex-grow-1">
+                <h3 class="mb-0" vg-html="j.Position"></h3>
+                <div class="subheading mb-3" vg-html="j.Company.Name"></div>
+                <p vg-content="vugu.HTML(j.DescriptionHtml())"></p>
+            </div>
+            <div class="flex-shrink-0">
+                <span class="text-primary" vg-html="j.Dates()"></span>
+                <br/>
+                <span class="text-secondary" vg-html="j.Duration()"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="application/x-go">
+
+type Experience struct {
+    jobs []Job
+}
+
+func (c *Experience) BeforeBuild() {
+    c.jobs = NewJobs()
+}
+
+
+
+func (c *Experience) Title() string { return "Job experience" }
+func (c *Experience) ShortTitle() string { return "Experience" }
+func (c *Experience) MetaDescription() string { return "---" }
+
+</script>

@@ -80,18 +80,18 @@
 <script type="application/x-go">
 import "github.com/vugu/vgrouter"
 
-type Index struct {
+type Contact struct {
     vgrouter.NavigatorRef
 
     ShowSurprise bool
 }
 
-func (c *Index) ToggleSurprise() { c.ShowSurprise = !c.ShowSurprise }
-func (c *Index) surpriseHidden() bool { return !c.ShowSurprise }
+func (c *Contact) ToggleSurprise() { c.ShowSurprise = !c.ShowSurprise }
+func (c *Contact) surpriseHidden() bool { return !c.ShowSurprise }
 
 
-func (c *Index) Title() string { return "Alexander Zhilin" }
-func (c *Index) ShortTitle() string { return "AZhilin" }
-func (c *Index) MetaDescription() string { return "Alexander Zhilin CV site built without using JavaScript" }
+func (c *Contact) Title() string { return "Alexander Zhilin" }
+func (c *Contact) ShortTitle() string { return "AZhilin" }
+func (c *Contact) MetaDescription() string { return "Alexander Zhilin CV site built without using JavaScript" }
 
 </script>

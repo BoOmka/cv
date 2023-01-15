@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"github.com/vugu/vugu/domrender"
 	"log"
 	"net/http"
 	"os"
@@ -27,7 +26,7 @@ func main() {
 	dev := flag.Bool("dev", false, "Enable development server mode")
 	build := flag.Bool("build", false, "Build static output")
 
-	devhttp := flag.String("devhttp", "127.0.0.1:8877", "In dev mode the host:port to listen on")
+	devhttp := flag.String("devhttp", ":8877", "In dev mode the host:port to listen on")
 
 	flag.Parse()
 
@@ -94,10 +93,7 @@ func runDevServer(addr string) {
 					return err
 				}
 				var rbuf bytes.Buffer
-				renderer, err := domrender.New("#root", false)
-				if err != nil {
-					panic(err)
-				}
+				renderer := staticrender.New(&rbuf)
 				app, rootBuilder := app.VuguSetup(buildEnv, renderer.EventEnv(), &app.VuguSetupOptions{AutoReload: false})
 
 				notFound := false
@@ -112,7 +108,7 @@ func runDevServer(addr string) {
 				app.Router.ProcessRequest(r)
 
 				buildResults := buildEnv.RunBuild(rootBuilder)
-				log.Printf("%v", buildResults.Out)
+				//log.Printf("%v", buildResults.Out)
 				//log.Printf("CSS len = %d", len(buildResults.Out.CSS))
 				err = renderer.Render(buildResults)
 				if err != nil {

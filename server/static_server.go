@@ -17,7 +17,7 @@ func main() {
 
 	mux.Handle("/", frontend)
 
-	l := "127.0.0.1:8877"
+	l := ":8877"
 	log.Printf("Starting HTTP Server at %q", l)
 	log.Fatal(http.ListenAndServe(l, mux))
 }

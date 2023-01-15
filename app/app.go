@@ -52,11 +52,16 @@ func VuguSetup(buildEnv *vugu.BuildEnv, eventEnv vugu.EventEnv, opts *VuguSetupO
 	}
 	buildEnv.WireComponent(root)
 
-	// changes by section
-	//app.Router.MustAddRoute("/doc", vgrouter.RouteHandlerFunc(func(rm *vgrouter.RouteMatch) {
-	//	root.Hero = &components.NavHero{}
-	//	root.Sidebar = &components.DocSidebar{}
-	//}))
+	//changes by section
+	app.Router.MustAddRoute("/cv", vgrouter.RouteHandlerFunc(func(rm *vgrouter.RouteMatch) {
+		root.Hero = &components.NavHero{}
+		root.Sidebar = &components.Sidebar{}
+	}))
+
+	app.Router.MustAddRoute("/btc", vgrouter.RouteHandlerFunc(func(rm *vgrouter.RouteMatch) {
+		root.Hero = nil
+		root.Sidebar = nil
+	}))
 
 	// pages - add automatically from generated routes
 	for path, inst := range pageMap {
@@ -79,9 +84,11 @@ func VuguSetup(buildEnv *vugu.BuildEnv, eventEnv vugu.EventEnv, opts *VuguSetupO
 
 	// add another route at the end that always runs and handles the page info
 	app.Router.MustAddRoute("/", vgrouter.RouteHandlerFunc(func(rm *vgrouter.RouteMatch) {
-		pi := state.PageInfoFrom(rm.Path, root.Body)
-		root.PageInfoSet(&pi)
-		*app.PageInfo = pi // overwrite PageInfo
+		if rm.Path == "/" {
+			*app.PageInfo = state.PageInfoFrom(rm.Path, root.FullBody)
+		} else {
+			*app.PageInfo = state.PageInfoFrom(rm.Path, root.Body)
+		}
 	}))
 
 	if app.Router.BrowserAvail() {
@@ -108,6 +115,8 @@ type App struct {
 
 // SiteNavPathList is the sequence of the previous and next links and the doc sidebar uses this sequence for the things under /doc
 var SiteNavPathList = []string{
-	"/test",
-	"/me",
+	"/cv",
+	"/cv/experience",
+	"/cv/skills",
+	"/cv/interests",
 }

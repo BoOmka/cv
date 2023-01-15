@@ -1,20 +1,23 @@
 
-<header class="header">
+<header class="header navbar-dark bg-primary">
 	<div class="container">
 		<div class="row">
-			<nav class="navbar navbar-expand-lg navbar-light">
-				<a @click='event.PreventDefault();c.Navigate("/", nil)' href="/" class="navbar-brand"><img src="/assets/images/logo-white.svg" alt="Logo"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+				<a @click='event.PreventDefault();c.Navigate("/", nil);c.navbarCollapse()' href="/" class="navbar-brand"><img src="/assets/images/logo-white.svg" alt="Logo"></a>
+				<button @click='c.toggleNavbarCollapse()' class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 				</button>
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<div :class='c.navbarSupportedContentClass()' id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a @click='event.PreventDefault();c.Navigate("/", nil)' :class='"nav-link"+c.activeIfEq("/")' href="/">Home</span></a>
+							<a @click='event.PreventDefault();c.Navigate("/", nil);c.navbarCollapse()' :class='"nav-link"+c.activeIfEq("/")' href="/">Home</span></a>
 						</li>
 						<li class="nav-item">
-							<a @click='event.PreventDefault();c.Navigate("/btc", nil)':class='"nav-link"+c.activeIfEq("/btc")' href="/btc">BTC</span></a>
+							<a @click='event.PreventDefault();c.Navigate("/btc", nil);c.navbarCollapse()':class='"nav-link"+c.activeIfEq("/btc")' href="/btc">BTC</span></a>
+						</li>
+						<li class="nav-item">
+							<a @click='event.PreventDefault();c.Navigate("/cv", nil);c.navbarCollapse()':class='"nav-link"+c.activeIfEq("/cv")' href="/btc">CV</span></a>
 						</li>
 					</ul>
 					<ul class="navbar-nav">
@@ -43,6 +46,12 @@ import (
 type Header struct {
     vgrouter.NavigatorRef
 	state.PageInfoRef
+
+	navbarCollapsed bool
+}
+
+func (c *Header) BeforeBuild() {
+    c.navbarCollapsed = true
 }
 
 func (c *Header) activeIfEq(p string) string {
@@ -55,9 +64,20 @@ func (c *Header) activeIfPfx(p string) string {
 	return ""
 }
 
-func (c *Header) activeIfDocButNotDocStart() string {
-	if (c.PageInfo.Path == "/doc" || strings.HasPrefix(c.PageInfo.Path, "/doc/") ) && c.PageInfo.Path != "/doc/start" { return " active " }
-	return ""
+func (c *Header) toggleNavbarCollapse() {
+    c.navbarCollapsed = !c.navbarCollapsed
+}
+
+func (c *Header) navbarCollapse() {
+    c.navbarCollapsed = true
+}
+
+func (c *Header) navbarSupportedContentClass() string {
+    class := "navbar-collapse"
+    if c.navbarCollapsed {
+        class += " collapse"
+    }
+    return class
 }
 
 </script>

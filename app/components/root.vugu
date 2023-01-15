@@ -61,15 +61,26 @@
         <div id="root">
             <components:Header></components:Header>
 
+            <vg-comp expr="c.Hero"></vg-comp>
+
             <section class="mb-2" vg-if="c.Body!=nil">
                 <div class="container overlay-item-top">
                     <div class="row">
                         <div class="col">
                             <div class="content boxed">
                                 <div class="row separated">
-                                    <article class="col-md-12 content-body">
+
+                                    <article class="col-md-12 content-body" vg-if="c.Sidebar==nil">
                                         <vg-comp expr="c.Body"></vg-comp>
                                     </article>
+
+                                    <aside class="col-md-2 content-aside bg-light" vg-if="c.Sidebar!=nil">
+                                        <vg-comp expr="c.Sidebar"></vg-comp>
+                                    </aside>
+                                    <article class="col-md-10 content-body" vg-if="c.Sidebar!=nil">
+                                        <vg-comp expr="c.Body"></vg-comp>
+                                    </article>
+
                                 </div>
                             </div>
                         </div>
@@ -79,7 +90,7 @@
 
             <vg-comp expr="c.FullBody"></vg-comp>
 
-            <!-- <components:Footer></components:Footer> -->
+            <components:Footer></components:Footer>
         </div>
     </body>
 </html>
@@ -93,7 +104,9 @@
         state.PageInfoRef
         vgrouter.NavigatorRef
 
+        Hero       vugu.Builder
         Body       vugu.Builder
+        Sidebar    vugu.Builder
         FullBody   vugu.Builder
 
         AutoReload bool
